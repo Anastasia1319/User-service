@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(UserDto userDto) {
-        User saved = userRepository.save(converterService.toUserEntity(userDto));
+        User saved = userRepository.saveAndFlush(converterService.toUserEntity(userDto));
         return converterService.toUserDto(saved);
     }
 
