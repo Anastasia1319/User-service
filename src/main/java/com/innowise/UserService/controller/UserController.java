@@ -3,10 +3,11 @@ package com.innowise.UserService.controller;
 import com.innowise.UserService.service.UserService;
 import com.innowise.UserService.service.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/users")
@@ -17,8 +18,8 @@ public class UserController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<UserDto> getAll() {
-        return userService.getAll();
+    public Page<UserDto> getAll(Pageable pageable) {
+        return userService.getAll(pageable);
     }
 
     @GetMapping("/{id}")

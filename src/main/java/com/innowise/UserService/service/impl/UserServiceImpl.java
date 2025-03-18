@@ -9,10 +9,10 @@ import com.innowise.UserService.service.dto.UserDto;
 import com.innowise.UserService.service.mapping.Converter;
 import com.innowise.UserService.service.validation.PasswordValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,11 +23,9 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public List<UserDto> getAll() {
-        return userRepository.findAll()
-                .stream()
-                .map(converter::toUserDto)
-                .toList();
+    public Page<UserDto> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(converter::toUserDto);
     }
 
     @Override
