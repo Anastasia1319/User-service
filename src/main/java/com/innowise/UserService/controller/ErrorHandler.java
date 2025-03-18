@@ -1,6 +1,7 @@
 package com.innowise.UserService.controller;
 
 import com.innowise.UserService.exceptions.NotFoundException;
+import com.innowise.UserService.exceptions.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +14,11 @@ public class ErrorHandler {
     public ResponseEntity<String> notFoundHandler(NotFoundException e) {
         return new ResponseEntity<>("Sorry, we couldn't find the information you need.",
                 HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<String> validationHandler(ValidationException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
