@@ -7,6 +7,7 @@ import com.innowise.UserService.service.UserService;
 import com.innowise.UserService.service.dto.UserDto;
 import com.innowise.UserService.service.mapping.Converter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final Converter converter;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> getAll() {
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(UserDto userDto) {
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         User saved = userRepository.saveAndFlush(converter.toUserEntity(userDto));
         return converter.toUserDto(saved);
     }
