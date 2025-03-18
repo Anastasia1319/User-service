@@ -5,6 +5,7 @@ import com.innowise.UserService.data.entity.User;
 import com.innowise.UserService.exceptions.NotFoundException;
 import com.innowise.UserService.service.UserService;
 import com.innowise.UserService.service.dto.UserDto;
+import com.innowise.UserService.service.mapping.Converter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +16,13 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final ConverterService converterService;
+    private final Converter converter;
 
     @Override
     public List<UserDto> getAll() {
         return userRepository.findAll()
                 .stream()
-                .map(converterService::toUserDto)
+                .map(converter::toUserDto)
                 .toList();
     }
 
@@ -29,13 +30,13 @@ public class UserServiceImpl implements UserService {
     public UserDto getById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
-        return converterService.toUserDto(user);
+        return converter.toUserDto(user);
     }
 
     @Override
     public UserDto save(UserDto userDto) {
-        User saved = userRepository.saveAndFlush(converterService.toUserEntity(userDto));
-        return converterService.toUserDto(saved);
+        User saved = userRepository.saveAndFlush(converter.toUserEntity(userDto));
+        return converter.toUserDto(saved);
     }
 
     @Override

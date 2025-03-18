@@ -1,4 +1,4 @@
-package com.innowise.UserService.service.impl;
+package com.innowise.UserService.service.mapping;
 
 import com.innowise.UserService.data.entity.User;
 import com.innowise.UserService.service.dto.UserDto;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ConverterService {
+public class Converter {
 
     public User toUserEntity(UserDto userDto) {
         User user = new User();

@@ -1,27 +1,48 @@
 package com.innowise.UserService.data.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private long id;
 
-    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password")
     private String password;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+
+        if (id == 0 && user.id == 0) {
+            return email != null && email.equals(user.email);
+        }
+
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        if (id == 0) {
+            return email != null ? email.hashCode() : 0;
+        }
+        return Long.hashCode(id);
+    }
+
 }
